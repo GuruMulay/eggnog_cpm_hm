@@ -7,6 +7,7 @@ from keras.layers.merge import Multiply
 from keras.regularizers import l2
 from keras.initializers import random_normal, constant
 import numpy as np
+
 # stages = 6  # removed for only 1 staged model testing on eggnog
 # original cpm with COCO
 # np_branch1 = 38
@@ -76,7 +77,7 @@ def vgg_block(x, weight_decay):
 
 # def stage1_block(x, num_p, branch, weight_decay):
 #     # Block 1
-#     x = conv(x, 1281, 3, "Mconv1_stage1_L%d" % branch, (weight_decay, 0))  # Assign_40
+#     x = conv(x, 128, 3, "Mconv1_stage1_L%d" % branch, (weight_decay, 0))  # Assign_40
 #     x = relu(x)
 #     x = conv(x, 128, 3, "Mconv2_stage1_L%d" % branch, (weight_decay, 0))  # _36
 #     x = relu(x)
@@ -107,7 +108,7 @@ def stage1_block(x, num_p, branch, weight_decay):
 
 def stageT_block(x, num_p, stage, branch, weight_decay):
     # Block 1
-    x = conv(x, 128, 7, "Mconv1_stage%d_L%d" % (stage, branch), (weight_decay, 0))  # _24
+    x = conv(x, 128, 7, "Mconv1_stage%d_L%d_E" % (stage, branch), (weight_decay, 0))  # _24
     x = relu(x)
     x = conv(x, 128, 7, "Mconv2_stage%d_L%d" % (stage, branch), (weight_decay, 0))
     x = relu(x)
@@ -295,6 +296,7 @@ def get_training_model_eggnog(weight_decay, gpus=None, stages=6):
     return model
 
 
+# this one is for COCO dataset
 def get_training_model(weight_decay, gpus=None):
 
     img_input_shape = (None, None, 3)

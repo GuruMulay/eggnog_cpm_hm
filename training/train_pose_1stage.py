@@ -76,7 +76,7 @@ if split_sessionwise:
 
 
 # testing eggnog with only n stages
-n_stages = 1
+n_stages = 2
 
 """
 # notes
@@ -97,7 +97,7 @@ use_multiple_gpus = None  # set None for 1 gpu, not 1
 
 os.environ["CUDA_VISIBLE_DEVICES"]="2,3"
 
-BASE_DIR = "/s/red/b/nobackup/data/eggnog_cpm/from_scratch_hm/0411180530pm/training/"
+BASE_DIR = "/s/red/b/nobackup/data/eggnog_cpm/from_scratch_hm/0607180530pm/training/"
 os.makedirs(BASE_DIR, exist_ok=True)
 print("base dir ========================", BASE_DIR)
 WEIGHTS_SAVE = 'weights_egg.{epoch:04d}.h5'
@@ -293,7 +293,7 @@ if split_sessionwise:
     # create train list
     for session_name in train_sessions:
         for layout in [l for l in os.listdir(os.path.join(eggnog_dataset_path, session_name)) if "layout" in l]:
-            for video_folder in [vf for vf in os.listdir(os.path.join(eggnog_dataset_path, session_name, layout)) if os.path.isdir(os.path.join(eggnog_dataset_path, session_name, layout, vf))]:
+            for video_folder in [vf for vf in os.listdir(os.path.join(eggnog_dataset_path, session_name, layout)) if os.path.isdir(os.path.join(eggnog_dataset_path, session_name, layout, vf)) and "version2" in os.path.join(eggnog_dataset_path, session_name, layout, vf)]:
                 print("train video_folder =====================", os.path.join(session_name, layout, video_folder))
 
                 for file in sorted(os.listdir(os.path.join(eggnog_dataset_path, session_name, layout, video_folder))):
@@ -305,7 +305,7 @@ if split_sessionwise:
     # create val list
     for session_name in val_sessions:
         for layout in [l for l in os.listdir(os.path.join(eggnog_dataset_path, session_name)) if "layout" in l]:
-            for video_folder in [vf for vf in os.listdir(os.path.join(eggnog_dataset_path, session_name, layout)) if os.path.isdir(os.path.join(eggnog_dataset_path, session_name, layout, vf))]:
+            for video_folder in [vf for vf in os.listdir(os.path.join(eggnog_dataset_path, session_name, layout)) if os.path.isdir(os.path.join(eggnog_dataset_path, session_name, layout, vf)) and "version2" in os.path.join(eggnog_dataset_path, session_name, layout, vf)]:
                 print("val video_folder =====================", os.path.join(session_name, layout, video_folder))
 
                 for file in sorted(os.listdir(os.path.join(eggnog_dataset_path, session_name, layout, video_folder))):
@@ -320,7 +320,7 @@ if split_videowise:
     # create train list and val list simultaneously
     for session_name in train_val_sessions:
         for layout in [l for l in os.listdir(os.path.join(eggnog_dataset_path, session_name)) if "layout" in l]:
-            for video_folder in [vf for vf in os.listdir(os.path.join(eggnog_dataset_path, session_name, layout)) if os.path.isdir(os.path.join(eggnog_dataset_path, session_name, layout, vf))]:
+            for video_folder in [vf for vf in os.listdir(os.path.join(eggnog_dataset_path, session_name, layout)) if os.path.isdir(os.path.join(eggnog_dataset_path, session_name, layout, vf)) and "version2" in os.path.join(eggnog_dataset_path, session_name, layout, vf)]:
                 files_list_video_folder = sorted(os.listdir(os.path.join(eggnog_dataset_path, session_name, layout, video_folder)))
                 n_files_in_video_folder = len(files_list_video_folder)  # includes .jpg and .npy*3 (4 files per image)
                 print("train and val video_folder, n_files =====================", os.path.join(session_name, layout, video_folder), n_files_in_video_folder)
